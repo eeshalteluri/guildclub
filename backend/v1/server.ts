@@ -4,7 +4,7 @@ import session from "express-session"
 import passport from "passport"
 import GoogleStrategy from "passport-google-oauth20"
 import connectDB from "./config/database"  // Import the database connection
-import app from "./routes"
+import app from "./routes/index"
 import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./config"
 import User from "./models/User"
 
