@@ -7,6 +7,7 @@ import friendRoutes from "./Friend"
 import notificationRoutes from "./Notification"
 import checkLoggedIn from "../middlewares/IsLoggedIn"
 import taskRoutes from "./Task"
+
 const router = express.Router()
 
 router.get("/", (req, res) => {
