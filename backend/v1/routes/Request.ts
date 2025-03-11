@@ -1,8 +1,8 @@
 import  { Request, Response , Router } from "express";
-import { findUserId, findUserDetails } from "../helpers/findUserId.ts";
-import Notification from "../models/Notification.ts";
-import User from "../models/User.ts";
-import NotificationType from "../types/notification.ts";
+import { findUserId, findUserDetails } from "../helpers/findUserId";
+import Notification from "../models/Notification";
+import User from "../models/User";
+import NotificationType from "../types/notification";
 import { AuthenticatedRequest } from "passport"
 
 const router: Router = Router();

@@ -5,7 +5,7 @@ import taskSchema from "../zod/taskSchema";
 import { ObjectId } from "mongodb";
 import { generateDailyLogs, generateWeeklyLogs, generateMonthlyLogs, generateCustomDateLogs } from "../helpers/GenerateLogs";
 import User from "../models/User";
-import agenda from "../config/scheduleTaskLogs";
+
 import { findUserId } from "../helpers/findUserId";
 import Notification from "../models/Notification";
 

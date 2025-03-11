@@ -1,8 +1,7 @@
 import { Response, Router } from "express"
-import User from "../models/User"
 import Notification from "../models/Notification"
 import { AuthenticatedRequest } from "passport"
-import { findUserId, findUserDetails } from "../helpers/findUserId"
+
 
 const router: Router = Router()
 
