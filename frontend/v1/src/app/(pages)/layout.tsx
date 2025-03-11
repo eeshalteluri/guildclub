@@ -1,89 +1,75 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { headers } from 'next/headers';
 import { UserProvider } from '@/contexts/UserContext';
-import { TaskDataProvider } from "@/contexts/TaskContext";
-import { headers } from "next/headers";
-import { RequestsProvider } from "@/contexts/RequestContext";
-
-async function getUser() {
-  console.log("Fetching User initiated...")
-  try {
-    const headersList = await headers();
-
-    const response = await fetch('http://localhost:5000/auth/user', {
-      credentials: 'include',
-      headers: {
-        Cookie: headersList.get('cookie') || '',
-        'Cache-Control': 'no-store',  // 🚀 Prevent caching
-      },
-      cache: 'no-store',  // 🚀 Force fresh API call
-    });
-
-    console.log("Response fetching User: ", response)
-
-    if (!response.ok) return null;
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    return null;
-  }
-}
-
-  async function fetchTasksAndTasklogs(taskIds: string[]) {
-    console.log("Fetching tasklogs initiated....")
-    console.log("Fetching tasklog with the respective TaskIDs: ", taskIds)
-  try {
-    if (taskIds.length > 0) {
-      console.log("Fetching Task Logs for:", taskIds);
-
+  
+  async function getUser() {
+    try {
       const headersList = await headers();
-      const cookie = headersList.get('cookie') || '';
-      const response = await fetch(`http://localhost:5000/auth/task-data-and-logs?taskIds=${taskIds}`, {
-        method: "GET",
-        credentials: "include",
+      const response = await fetch('http://localhost:5000/auth/user', {
+        credentials: 'include',
         headers: {
-          Cookie: cookie,
+          Cookie: headersList.get('cookie') || '',
         },
-        cache: "reload",
       });
-
-      console.log("Response fetching Task data and logs: ", response)
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch tasks: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetch Logs Data: ",data)
-      return data.tasksLogsData || [];
+      
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      return null;
     }
-  } catch (error) {
-    console.error("Error fetching Tasklogs:", error);
   }
 
-  return [];
-  }
+  async function fetchTaskLogs(taskIds: string[]) {
+    try {
+    if (taskIds.length > 0) {
+      console.log("User Tasks: ", taskIds);
+      
+        if (taskIds.length > 0) {
+          console.log("User Tasks: ", taskIds);
+            const headersList = await headers();
+            const response = await fetch("http://localhost:5000/task/tasklogs", {
+              method: "POST",
+              credentials: 'include',
+              headers: {
+                "Content-Type": "application/json",
+                Cookie: headersList.get('cookie') || '',
+              },
+              body: JSON.stringify({ taskIds }), // Send the array of task IDs
+            });
+      
+            if (!response.ok) {
+              throw new Error(`Failed to fetch tasks: ${response.statusText}`);
+            }
 
-export default async function PagesLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const initialUser = await getUser();
-  const initialTasksData = await fetchTasksAndTasklogs(initialUser?.tasks || []);
-
-  return (
-    <div className="h-full">
-      <UserProvider initialUser={initialUser}>
-        <TaskDataProvider initialTasksData={initialTasksData} >
-          <RequestsProvider>
+            const data = await response.json();
+            console.log("Tasklogs: ", data);
+             return data.taskLogs
+          } 
+        }
+        return null
+      }catch (error) {
+        console.error("Error fetching Tasklogs: ", error)
+        return null
+      }
+}
+  
+  export default async function PagesLayout({
+    children,
+  }: Readonly<{
+    children: React.ReactNode;
+  }>) {
+    const initialUser = await getUser();
+    const tasks = await fetchTaskLogs(initialUser?.tasks || [])
+  
+    return (
+      <div className="h-full">
+        <UserProvider initialUser={initialUser}>
           <Navbar />
           {children}
           <Footer />
-          </RequestsProvider>
-        </TaskDataProvider>
-      </UserProvider>
-    </div>
-  );
-}
+        </UserProvider>
+      </div>
+    );
+  }
