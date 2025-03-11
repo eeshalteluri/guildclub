@@ -61,7 +61,7 @@ import { UserProvider } from '@/contexts/UserContext';
     children: React.ReactNode;
   }>) {
     const initialUser = await getUser();
-    const tasks = await fetchTaskLogs(initialUser?.tasks || [])
+    await fetchTaskLogs(initialUser?.tasks || [])
   
     return (
       <div className="h-full">

@@ -23,6 +23,7 @@ const NotificationPage = () => {
         credentials: "include",
       });
       const data = await response.json();
+      console.log("Notification Data: ", data)
   
       if (data.success) {
         // ✅ Transform notifications to required format

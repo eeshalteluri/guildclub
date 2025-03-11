@@ -146,10 +146,10 @@ useEffect(() => {
 
       {searchedUsername && (
         <div className="space-y-2">
-          <h3>Search results for "{searchedUsername}"</h3>
+          <h3>Search results for &quot;{searchedUsername}&quot;</h3>
           {searchedUser.fullName ? (
             <SearchFriendCard
-              loggedInUsername={user?.username!}
+              loggedInUsername={user?.username}
               fullname={searchedUser.fullName}
               username={searchedUser.userName}
             />
@@ -176,7 +176,7 @@ useEffect(() => {
                 key={friend.username}
                 fullname={friend.name}
                 username={friend.username}
-                loggedInUsername = {user?.username!}
+                loggedInUsername = {user?.username}
               />
             ))
           ) : 

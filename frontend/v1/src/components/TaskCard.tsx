@@ -198,7 +198,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
         setMarkButtonValue(prev => { const updatedValue = prev === "Request" ? "Reject" : "Request"; console.log("Updated Button Value: ", updatedValue); return updatedValue })
         console.log("Mark Button Value: ", markButtonValue)
       }else if(taskDetails?.type === "NT" && LogStatus) {
-        setMarkButtonValue(prev => { const updatedValue = prev === "Mark" ? "Unmark" : "Mark"; console.log("Updated Button Value: ", updatedValue); return updatedValue })
+        setMarkButtonValue(prev => { const updatedValue = ( prev === "Mark" ? "Unmark" : "Mark"); console.log("Updated Button Value: ", updatedValue); return updatedValue })
         console.log("Mark Button Value: ", markButtonValue)
       }
   

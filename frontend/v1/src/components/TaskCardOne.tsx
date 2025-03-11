@@ -176,6 +176,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
         }
 
         const data = await response.json(); // Assuming the response is JSON
+        console.log(data);
         console.log("Task agenda successfully started:");
     } catch (error) {
         console.error("Error handling today's task:", error);
