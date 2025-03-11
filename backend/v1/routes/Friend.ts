@@ -3,7 +3,7 @@ import User from "../models/User"
 import Notification from "../models/Notification"
 import { AuthenticatedRequest } from "passport";
 
-import { findUserId, findUserDetails } from "../helpers/findUserId"
+import { findUserId, findUserDetails } from "../helpers/FindUserId"
 
 const router: Router = Router()
 

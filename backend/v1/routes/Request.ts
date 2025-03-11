@@ -1,5 +1,5 @@
 import  { Request, Response , Router } from "express";
-import { findUserId, findUserDetails } from "../helpers/findUserId";
+import { findUserId, findUserDetails } from "../helpers/FindUserId";
 import Notification from "../models/Notification";
 import User from "../models/User";
 import NotificationType from "../types/notification";

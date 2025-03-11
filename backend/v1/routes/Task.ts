@@ -1,12 +1,12 @@
 import express, { Request, Response , Router } from "express";
 import Task from "../models/Task";
 import TaskLog from "../models/Tasklog";
-import taskSchema from "../zod/taskSchema";
+import taskSchema from "../zod/TaskSchema";
 import { ObjectId } from "mongodb";
 import { generateDailyLogs, generateWeeklyLogs, generateMonthlyLogs, generateCustomDateLogs } from "../helpers/GenerateLogs";
 import User from "../models/User";
 
-import { findUserId } from "../helpers/findUserId";
+import { findUserId } from "../helpers/FindUserId";
 import Notification from "../models/Notification";
 
 const router: Router = Router()
