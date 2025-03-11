@@ -10,7 +10,7 @@ import { useTaskData } from "@/contexts/TaskContext";
 
 export default function Dashboard() {
   const { user, setUser } = useUser();
-  const {tasksData} = useTaskData();
+  const {tasksData, setTasksData} = useTaskData();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   
@@ -35,7 +35,7 @@ export default function Dashboard() {
       try {
         if(!user){
           console.log('Fetching user...');
-          const response = await fetch("https://guildclub-backend.vercel.app/auth/user", {
+          const response = await fetch("http://localhost:5000/auth/user", {
             credentials: 'include',
           });
           
@@ -64,6 +64,40 @@ export default function Dashboard() {
       if (intervalId) clearInterval(intervalId);
     };
   }, []); // Dependency added to avoid refetching when user is already available
+
+  useEffect(() => {
+    async function fetchTaskLogs(taskIds: string[]) {
+      try {
+        if (taskIds && taskIds.length > 0) {
+          console.log("User Tasks: ", taskIds);
+  
+          const response = await fetch(`http://localhost:5000/auth/task-data-and-logs?taskIds=${taskIds}`, {
+            credentials: 'include',
+          });
+  
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Tasklogs: ", data);
+            setTasksData(data.tasksLogsData); // ✅ Update context here
+            console.log("Tasks Data: ",tasksData)
+          } else {
+            throw new Error(`Failed to fetch tasks: ${response.statusText}`);
+          }
+        } else {
+          console.log("Tasks array is empty!");
+        }
+      } catch (error) {
+        console.error("Error fetching Tasklogs: ", error);
+      }
+    }
+  
+    // Only fetch if user and tasks are available
+    if (user?.tasks?.length) {
+      fetchTaskLogs(user.tasks);
+    }
+  
+  }, [user]); // ✅ Depend on user, so it runs when user is set
+  
   
 
   if (isLoading) {

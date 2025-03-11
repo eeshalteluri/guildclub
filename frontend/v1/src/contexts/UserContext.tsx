@@ -26,8 +26,10 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserProvider({ children, initialUser }: { children: ReactNode; initialUser: UserType | null }) {
-  const [user, setUser] = useState<UserType | null>(initialUser);
+export function UserProvider({ children }: { children: ReactNode;} ) {
+  const [user, setUser] = useState<UserType | null>(null);
+
+  console.log("user Context Data: ", user)
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

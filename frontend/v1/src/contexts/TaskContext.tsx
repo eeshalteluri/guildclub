@@ -36,11 +36,10 @@ const TaskDataContext = createContext<TaskDataContextType | undefined>(undefined
 
 interface TaskDataProviderProps {
   children: ReactNode;
-  initialTasksData: TaskData[] | null;
 }
 
-export function TaskDataProvider({ children, initialTasksData }: TaskDataProviderProps) {
-  const [tasksData, setTasksData] = useState<TaskData[] | null>(() => initialTasksData)
+export function TaskDataProvider({ children }: TaskDataProviderProps) {
+  const [tasksData, setTasksData] = useState<TaskData[] | null>(null)
 
   console.log("Task Context Data: ",tasksData)
 

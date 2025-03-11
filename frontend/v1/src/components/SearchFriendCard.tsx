@@ -16,7 +16,7 @@ import { useRequests } from "@/contexts/RequestContext";
     console.log(username, loggedInUsername)
 
     const sendFriendRequest = async () => {
-      const response = await fetch("https://guildclub-backend.vercel.app/friend/send-request", {
+      const response = await fetch("http://localhost:5000/friend/send-request", {
         method: "POST",
         credentials: "include",
         headers: {

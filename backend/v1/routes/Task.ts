@@ -191,8 +191,6 @@ router.post("/new-task", async (req: Request, res: Response):Promise<any> => {
       }
 })
 
-
-
 router.post("/today-log", async (req: Request, res: Response):Promise<any> => {
 
   try {

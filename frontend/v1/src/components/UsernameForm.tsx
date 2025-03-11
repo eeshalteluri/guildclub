@@ -33,7 +33,7 @@ const ClaimUsername = ({ onUpdate }: { onUpdate: () => void }) => {
     setLoading(true);
     try {
       console.log("Checking username:", username.trim())
-      const response = await fetch("https://guildclub-backend.vercel.app/username/check-username", {
+      const response = await fetch("http://localhost:5000/username/check-username", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const ClaimUsername = ({ onUpdate }: { onUpdate: () => void }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://guildclub-backend.vercel.app/username/claim-username", {
+      const response = await fetch("http://localhost:5000/username/claim-username", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
