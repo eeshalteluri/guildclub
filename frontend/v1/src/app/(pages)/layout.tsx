@@ -6,7 +6,7 @@ import { UserProvider } from '@/contexts/UserContext';
   async function getUser() {
     try {
       const headersList = await headers();
-      const response = await fetch('http://localhost:5000/auth/user', {
+      const response = await fetch('https://guildclub-backend.vercel.app/auth/user', {
         credentials: 'include',
         headers: {
           Cookie: headersList.get('cookie') || '',
@@ -29,7 +29,7 @@ import { UserProvider } from '@/contexts/UserContext';
         if (taskIds.length > 0) {
           console.log("User Tasks: ", taskIds);
             const headersList = await headers();
-            const response = await fetch("http://localhost:5000/task/tasklogs", {
+            const response = await fetch("https://guildclub-backend.vercel.app/task/tasklogs", {
               method: "POST",
               credentials: 'include',
               headers: {

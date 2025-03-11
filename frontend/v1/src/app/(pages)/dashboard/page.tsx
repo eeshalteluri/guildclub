@@ -35,7 +35,7 @@ export default function Dashboard() {
       try {
         if(!user){
           console.log('Fetching user...');
-          const response = await fetch("http://localhost:5000/auth/user", {
+          const response = await fetch("https://guildclub-backend.vercel.app/auth/user", {
             credentials: 'include',
           });
           
