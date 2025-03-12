@@ -17,8 +17,8 @@ router.get("/google", passport.authenticate("google", {
 }));
 
 router.get("/google/callback", passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/dashboard",
-    failureRedirect: "http://localhost:3000"
+    successRedirect: "https://guildclub.vercel.app/dashboard",
+    failureRedirect: "https://guildclub.vercel.app"
 }));
 
 router.get("/user", isAuthenticated, (req: AuthenticatedRequest, res: Response) => {

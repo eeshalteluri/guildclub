@@ -31,7 +31,7 @@ const ProfilePage = () => {
     try{
       setLoading((prev) => ({ ...prev, name: true }))
     
-        const response = await fetch("http://localhost:5000/user/update-name", {
+        const response = await fetch("https://guildclub-backend.vercel.app/user/update-name", {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -63,7 +63,7 @@ const ProfilePage = () => {
     try{
       setLoading((prev) => ({ ...prev, username: true }))
     
-        const response = await fetch("http://localhost:5000/username/update-username", {
+        const response = await fetch("https://guildclub-backend.vercel.app/username/update-username", {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -93,7 +93,7 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-        const response = await fetch("http://localhost:5000/auth/logout", {
+        const response = await fetch("https://guildclub-backend.vercel.app/auth/logout", {
             method: "GET",
             credentials: "include", // Ensure cookies are sent with the request
         });

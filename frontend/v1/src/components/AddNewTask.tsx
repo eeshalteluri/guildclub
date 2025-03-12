@@ -97,7 +97,7 @@ useEffect(() => {
       const bodyData = { ...data, userId };
       console.log("bodyData being sent:", bodyData);
 
-      const response = await fetch("http://localhost:5000/task/new-task",{
+      const response = await fetch("https://guildclub-backend.vercel.app/task/new-task",{
         credentials: "include",
         method: "POST",
         headers: {

@@ -26,6 +26,18 @@ const HomePage = () => {
           </Link>
         </Button> 
       </div>
+
+      {/* Footer Links */}
+      <div className="mt-8 text-sm text-gray-500 flex gap-4">
+        <Link href="/privacy-policy" className="hover:underline">
+          Privacy Policy
+        </Link>
+        <span>|</span>
+        <Link href="/terms-of-service" className="hover:underline">
+          Terms of Service
+        </Link>
+      </div>
+      
     </div>
   )
 }
