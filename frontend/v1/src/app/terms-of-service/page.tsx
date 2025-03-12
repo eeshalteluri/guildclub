@@ -65,7 +65,7 @@ const TermsOfService = () => {
       <section className="space-y-4 mt-8">
         <h2 className="text-2xl font-semibold">6. Limitation of Liability</h2>
         <p>
-          Our Services are provided "as is" without warranties of any kind. We are not liable for
+          Our Services are provided &quot;as is&quot; without warranties of any kind. We are not liable for
           any direct, indirect, incidental, or consequential damages arising from your use of the
           Services.
         </p>
@@ -84,7 +84,7 @@ const TermsOfService = () => {
         <h2 className="text-2xl font-semibold">8. Changes to Terms</h2>
         <p>
           We may update these Terms of Service from time to time. We will notify you of
-          significant changes by updating the "Last Updated" date. Your continued use of the
+          significant changes by updating the &quot;Last Updated&quot; date. Your continued use of the
           Services constitutes acceptance of the updated Terms.
         </p>
       </section>
