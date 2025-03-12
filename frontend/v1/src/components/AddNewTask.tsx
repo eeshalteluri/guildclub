@@ -21,6 +21,17 @@ import MonthlyPicker from "./MonthlyPicker";
 import { useUser } from "@/contexts/UserContext";
 import { useTaskData } from "@/contexts/TaskContext";
 
+interface NewTaskType {
+  accountabilityPartner: { name: string, username: string },
+  from: Date,
+  end: Date | null,
+  frequency: Date[] | string[],
+  frequencyType: string,
+  taskDescription: string,
+  taskName: string,
+  taskType: string
+}
+
 const date = new Date()
 const monthName = date.getMonth().toString()
 console.log(typeof(monthName))
@@ -77,7 +88,7 @@ useEffect(() => {
 }, [watch("frequencyType")]); // Trigger only on frequencyType changes
  // Only depend on `frequencyType` changes
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: NewTaskType) => {
     try {
       console.log("Form field value:", watch("taskDescription")); // Check direct form value
       console.log("Raw form data:", data); // See all form data before modification

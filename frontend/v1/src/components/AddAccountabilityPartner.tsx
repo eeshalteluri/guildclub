@@ -26,6 +26,10 @@ import { Badge } from "../components/ui/badge";
 import { FieldError } from "react-hook-form";
 import { useUser } from "@/contexts/UserContext";
 
+interface FriendType {
+  name: string,
+  username: string
+}
 
 interface AddAccountabilityPartnerProps {
   selectedPartner: {name: string, username: string}
@@ -41,12 +45,12 @@ const AddAccountabilityPartner = ({ selectedPartner, onPartnerSelect, error }: A
   console.log("Friends: ", friends)
 
   const filteredFriends = friends?.filter(
-    (friend: any) =>
+    (friend: FriendType) =>
       friend.name.toLowerCase().includes(searchedPartner.toLowerCase()) ||
       friend.username.toLowerCase().includes(searchedPartner.toLowerCase())
   );
 
-  const handleSelectPartner = (friend: any) => {
+  const handleSelectPartner = (friend: FriendType) => {
     onPartnerSelect(friend)
     console.log("Selected Partner:", friend); // You can send this data to an API or handle it as needed
   };
@@ -77,9 +81,9 @@ const AddAccountabilityPartner = ({ selectedPartner, onPartnerSelect, error }: A
 
           <div className="max-h-[250px] overflow-scroll mt-2">
             {Array.isArray(filteredFriends) && filteredFriends.length > 0 ? (
-              filteredFriends.map((friend: any) => (
+              filteredFriends.map((friend: FriendType) => (
                 <Card
-                  key={friend._id}
+                  key={friend.username}
                   className="w-full p-4 mb-1 flex justify-between items-center"
                 >
                   <div className="flex-1 space-y-1">

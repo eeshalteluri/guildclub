@@ -79,7 +79,7 @@ const AddCategory = () => {
 
               {activeCategories && activeCategories.length > 0 &&
                 <div className="[&>*]:mr-2">
-                  { activeCategories.map((category) => (<Badge>{category}</Badge>))}
+                  { activeCategories.map((category: string) => (<Badge>{category}</Badge>))}
                 </div>
               }
     </>

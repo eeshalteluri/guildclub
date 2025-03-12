@@ -2,6 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/contexts/UserContext";
 import NotificationCard from "@/components/NotificationCard";
+
+interface NotificationResponseType {
+  _id: string,
+  status: string,
+  fullName: string,
+  taskName: string,
+  date: string,
+  userId: string,
+  type: string,
+  fromUserId: {_id: string, name: string},
+  taskId: {_id: string, name: string},
+  message: string,
+}
+
 interface NotificationType {
   _id: string,
   status: string,
@@ -27,7 +41,7 @@ const NotificationPage = () => {
   
       if (data.success) {
         // ✅ Transform notifications to required format
-        const formattedNotifications = data.data.map((notification: any) => ({
+        const formattedNotifications = data.data.map((notification: NotificationResponseType) => ({
           _id: notification._id,
           fullName: notification.fromUserId?.name || "Unknown User", // ✅ Extract name
           taskName: notification.taskId?.name || "Unknown Task", // ✅ Extract task name (make sure taskId includes name in backend)
