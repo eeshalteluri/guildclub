@@ -15,7 +15,7 @@ const FriendCard = ({fullname, username, loggedInUsername}: {fullname: string, u
   const removeFriend = async(username: string, loggedInUsername: string) => {
     setIsRemoving(true)
     try{
-      const response =  await fetch("https://guildclub-backend.vercel.app/friend",{
+      const response =  await fetch("https://checkche-backend.vercel.app/friend",{
       method: "DELETE",
       credentials: "include",
       headers: {

@@ -16,7 +16,7 @@ const SignInPage = ({children}: Readonly<{
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://guildclub-backend.vercel.app/auth/google";
+    window.location.href = "https://checkche-backend.vercel.app/auth/google";
   };
 
     return (

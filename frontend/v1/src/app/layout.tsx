@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Guildclub",
+  title: "CheckChe",
   description: "Be accountable at what you do",
 };
 

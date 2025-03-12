@@ -217,7 +217,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
       }
   
       try {
-          const response = await fetch(`https://guildclub-backend.vercel.app/task/today-log`, {
+          const response = await fetch(`https://checkche-backend.vercel.app/task/today-log`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -240,7 +240,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
 
   const handleDelete = async (taskId: string, userId: string) => {
     try{
-      const response = await fetch("https://guildclub-backend.vercel.app/task", {
+      const response = await fetch("https://checkche-backend.vercel.app/task", {
         method: 'DELETE',
         credentials: "include",
         headers: {

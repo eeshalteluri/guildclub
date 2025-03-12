@@ -24,7 +24,7 @@ const startServer = async () => {
         // CONFIGURE HEADER INFORMATION (MIDDLEWARES)
         server.use(express.json())      
         server.use(cors({
-            origin: 'https://guildclub.vercel.app',
+            origin: 'https://checkche.vercel.app',
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
@@ -61,7 +61,7 @@ const startServer = async () => {
         passport.use(new GoogleStrategy({
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "https://guildclub-backend.vercel.app/auth/google/callback",
+            callbackURL: "https://checkche-backend.vercel.app/auth/google/callback",
             passReqToCallback: true,
         }, async(request, accessToken, refreshToken, profile, done) => {
             try {
