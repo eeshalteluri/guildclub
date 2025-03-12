@@ -5,7 +5,7 @@ import passport from "passport"
 import GoogleStrategy from "passport-google-oauth20"
 import connectDB from "./config/database"  // Import the database connection
 import app from "./routes/index"
-import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./config"
+import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV } from "./config"
 import User from "./models/User"
 
 
@@ -37,7 +37,7 @@ const startServer = async () => {
                 resave: false,
                 saveUninitialized: false,
                 cookie: {
-                    secure: process.env.NODE_ENV === 'production', // false in development
+                    secure: NODE_ENV === 'production', // false in development
                     httpOnly: true,
                     maxAge: 60 * 60 * 1000, // 1 hour
                     sameSite: 'lax'

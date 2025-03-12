@@ -10,7 +10,7 @@ export const isAuthenticated = (req: AuthenticatedRequest, res: Response, next: 
     }
     console.log("Unauthorized")
     res
-    .status(404)
+    .status(401)
     .json({
         status: "error",
         data: null,
