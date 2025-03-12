@@ -129,12 +129,12 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
     console.log("Task Logs: ", taskLogs?.logs);
 
 
-    let doesTodayExist = taskLogs?.logs?.find((log) => {
+    const doesTodayExist = taskLogs?.logs?.find((log) => {
       return log.date === isoDate
     });
     
     console.log("Does today exist: ", doesTodayExist)
-    let todayTempLogStatus = doesTodayExist?.status
+    const todayTempLogStatus = doesTodayExist?.status
     console.log("Today Temp Log Status: ", todayTempLogStatus)
 
     useEffect(() => {
@@ -204,16 +204,16 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
   
       if(markButtonValue === "Mark") {
         const LogColor = "bg-green-300"
-        setTodayTempLogColor((prev) => (LogColor))
+        setTodayTempLogColor(LogColor)
       }else if(markButtonValue === "Unmark") {
         const LogColor = "bg-yellow-300"
-        setTodayTempLogColor((prev)=>(LogColor))
+        setTodayTempLogColor(LogColor)
       }else if(markButtonValue === "Request") {
         const LogColor = "bg-lime-300"
-        setTodayTempLogColor((prev)=>(LogColor))
+        setTodayTempLogColor(LogColor)
       }else if(markButtonValue === "Reject") {
         const LogColor = "bg-yellow-300"
-        setTodayTempLogColor((prev)=>(LogColor))
+        setTodayTempLogColor(LogColor)
       }
   
       try {
@@ -231,6 +231,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
           }
   
           const data = await response.json(); // Assuming the response is JSON
+          console.log("Today's Log Response Data: ", data)
           console.log("Task agenda successfully started:");
       }catch(error) {
           console.error("Error handling today's task:", error);

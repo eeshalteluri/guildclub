@@ -109,7 +109,7 @@ const ClaimUsername = () => {
       }),
     {
       loading: 'Updating username...',
-      success:(message: String) => message,
+      success:(message: string) => message,
       error: (error: Error) => error.message
     }   
   )

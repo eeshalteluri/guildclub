@@ -12,7 +12,7 @@ import { Checkbox } from "../components/ui/checkbox";
 
 import { IoChevronForward } from "react-icons/io5";
 
-const tasks: Array<String> = [
+const tasks: Array<string> = [
     "Task 11",
     "Task 12",
     "Task 13",

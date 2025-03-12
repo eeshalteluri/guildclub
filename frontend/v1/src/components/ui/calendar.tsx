@@ -2,12 +2,34 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker, CustomComponents } from "react-day-picker"
+import { DayPicker, NavProps } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
+
+// Custom navigation component
+const CustomNav = ({ onNextClick, onPreviousClick, nextMonth, previousMonth }: NavProps) => (
+  <div className="space-x-1 flex items-center absolute right-1">
+    <button
+      type="button"
+      onClick={(e) => onPreviousClick?.(e)}
+      disabled={!previousMonth}
+      className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+    >
+      <ChevronLeft className="h-4 w-4" />
+    </button>
+    <button
+      type="button"
+      onClick={(e) => onNextClick?.(e)}
+      disabled={!nextMonth}
+      className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+    >
+      <ChevronRight className="h-4 w-4" />
+    </button>
+  </div>
+);
 
 function Calendar({
   className,
@@ -60,14 +82,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        NavigationIcon: {
-          Previous: ({ className, ...props }: { className?: string }) => (
-            <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
-          ),
-          Next: ({ className, ...props }: { className?: string }) => (
-            <ChevronRight className={cn("h-4 w-4", className)} {...props} />
-          ),
-        }
+        Nav: CustomNav
       }}
       {...props}
     />

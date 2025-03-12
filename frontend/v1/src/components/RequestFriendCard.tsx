@@ -16,6 +16,7 @@ import { useRequests } from "@/contexts/RequestContext";
     console.log("Type: ", type)
     console.log("To Username: ", username)
     console.log("From Username: ", user?.username)
+    console.log("Is Clicked value: ", isClicked)
 
     const deleteRequest = async ( fromUsername: string, toUsername: string, type: string ) => {
       console.log("Delete Request: ", fromUsername, toUsername)
@@ -67,16 +68,18 @@ import { useRequests } from "@/contexts/RequestContext";
       console.log("User.Username: ", user?.username)
       console.log("Username: ", username)
 
-      await deleteRequest(
-        type === "received" ? username : user?.username!,
-        type === "sent" ?  username : user?.username!,
-        type
-      );
+      if(user){
+        await deleteRequest(
+          type === "received" ? username : user?.username,
+          type === "sent" ?  username : user?.username,
+          type
+        );
+      }
 
       setIsClicked(false);
     }
 
-    const addFriend = async (username: string, loggedInUsername: string, loggedInUserFullname: string) => {
+    const addFriend = async (username: string, loggedInUsername: string | undefined , loggedInUserFullname: string | undefined) => {
       console.log("Add Friend: ", username, loggedInUsername, loggedInUserFullname)
 
       try{
@@ -120,7 +123,7 @@ import { useRequests } from "@/contexts/RequestContext";
           </div>
           
           <div className="flex gap-2">
-          {type == "received" && <Button onClick={() => addFriend(username, user?.username!, user?.name!)}>Accept</Button>}
+          {type == "received" && <Button onClick={() => addFriend(username, user?.username, user?.name) }>Accept</Button>}
           <Button onClick={handleDeleteClick}>Delete</Button>
           </div>
       </Card>

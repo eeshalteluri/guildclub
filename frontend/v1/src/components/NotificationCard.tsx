@@ -11,7 +11,7 @@ type TaskApprovalCardProps = {
 
 const approveTask = async(_id: string) => {
   try{
-    const repsonse = await fetch("http://localhost:5000/task/approve", {
+    const response = await fetch("http://localhost:5000/task/approve", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -21,13 +21,15 @@ const approveTask = async(_id: string) => {
         notificationId: _id
       }),
     })
+
+    console.log("Task Approval response: ", response)
   }catch(error){
     console.log("Error: ",error)
   }
 }
 
 const reApproveTask = async(_id: string) => {
-  const repsonse = await fetch("http://localhost:5000/task/request-approval", {
+  const response = await fetch("http://localhost:5000/task/request-approval", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -37,10 +39,12 @@ const reApproveTask = async(_id: string) => {
       notificationId: _id
     }),
   })
+
+  console.log("Task Request Approval response: ", response)
 }
 
 const rejectTask = async(_id: string) => {
-  const repsonse = await fetch("http://localhost:5000/task/reject", {
+  const response = await fetch("http://localhost:5000/task/reject", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -50,6 +54,8 @@ const rejectTask = async(_id: string) => {
       notificationId: _id
     }),
   })
+
+  console.log("Task Rejection response: ", response)
 }
 
 const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprovalCardProps) => {

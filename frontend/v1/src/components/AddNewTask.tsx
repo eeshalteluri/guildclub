@@ -37,7 +37,7 @@ const AddNewTask = () => {
       taskName: "",
       taskDescription: "",
       frequencyType: "daily",
-      frequency: [] as Date[] | String[], // This should be typed as Date[]
+      frequency: [] as Date[] | string[], // This should be typed as Date[]
       taskType: "AT",
       accountabilityPartner: {name: "", username:""},
       from: new Date() as Date,
@@ -53,6 +53,8 @@ useEffect(() => {
   const frequencyType = watch("frequencyType"); // Watch frequencyType
   const currentFrom = watch("from"); // Watch current 'from' value
   const currentTo = watch("end"); // Watch current 'to' value
+
+  console.log(currentTo)
 
   if (frequencyType === "custom") {
     // Set default values for custom frequency type
