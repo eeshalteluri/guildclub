@@ -14,6 +14,13 @@ router.get("/", (req, res) => {
     res.send("Express server is running...!")
 })
 
+router.get('/test-cookie', (req, res) => {
+    res.cookie('testcookie', 'hello', {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+    }).send('Cookie set!');
+});
 
 router.get("/api/v1", (req, res) => {
     try{

@@ -28,6 +28,9 @@ export default function Dashboard() {
     }
   };
 
+  fetch('https://checkche-backend.onrender.com/test-cookie', { credentials: 'include' });
+
+
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
   
