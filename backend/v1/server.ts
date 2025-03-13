@@ -40,7 +40,7 @@ const startServer = async () => {
                     secure: NODE_ENV === 'production', // false in development
                     httpOnly: true,
                     maxAge: 60 * 60 * 1000, // 1 hour
-                    sameSite: 'lax'
+                    sameSite: 'none'
                 }
             })
         )
