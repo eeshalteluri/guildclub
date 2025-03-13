@@ -6,7 +6,7 @@ import passport from "passport"
 import GoogleStrategy from "passport-google-oauth20"
 import connectDB from "./config/database"  // Import the database connection
 import app from "./routes/index"
-import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV } from "./config"
+import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV, MONGODB_URI } from "./config"
 import User from "./models/User"
 
 
@@ -41,7 +41,7 @@ const startServer = async () => {
                 resave: false,
                 saveUninitialized: false,
                 store: MongoStore.create({
-                    mongoUrl: process.env.MONGO_URI, // your MongoDB connection string
+                    mongoUrl: MONGODB_URI, // your MongoDB connection string
                     collectionName: 'sessions',
                   }),
                 cookie: {
