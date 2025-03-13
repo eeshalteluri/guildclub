@@ -1,4 +1,5 @@
 import express, { Router } from "express"
+import MongoStore from "connect-mongo"
 import cors from "cors"
 import session from "express-session"
 import passport from "passport"
@@ -33,12 +34,16 @@ const startServer = async () => {
 
         //CONFIGURE SESSION
         console.log("NODE_ENV: ", NODE_ENV)
-        
+
         server.use(
             session({
                 secret: SESSION_SECRET,
                 resave: false,
                 saveUninitialized: false,
+                store: MongoStore.create({
+                    mongoUrl: process.env.MONGO_URI, // your MongoDB connection string
+                    collectionName: 'sessions',
+                  }),
                 cookie: {
                     secure: NODE_ENV === 'production', // false in development
                     httpOnly: true,
