@@ -35,7 +35,7 @@ export default function Dashboard() {
       try {
         if(!user){
           console.log('Fetching user...');
-          const response = await fetch("https://checkche-backend.vercel.app/auth/user", {
+          const response = await fetch("https://checkche-backend.onrender.com/auth/user", {
             credentials: 'include',
           });
           
@@ -71,7 +71,7 @@ export default function Dashboard() {
         if (taskIds && taskIds.length > 0) {
           console.log("User Tasks: ", taskIds);
   
-          const response = await fetch(`https://checkche-backend.vercel.app/auth/task-data-and-logs?taskIds=${taskIds}`, {
+          const response = await fetch(`https://checkche-backend.onrender.com/auth/task-data-and-logs?taskIds=${taskIds}`, {
             credentials: 'include',
           });
   

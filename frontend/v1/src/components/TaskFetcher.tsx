@@ -9,7 +9,7 @@ async function fetchTaskLogs(taskIds: string[]) {
   try {
     if (taskIds.length > 0) {
       console.log("Fetching Task Logs for:", taskIds);
-      const response = await fetch("https://checkche-backend.vercel.app/task/tasklogs", {
+      const response = await fetch("https://checkche-backend.onrender.com/task/tasklogs", {
         method: "POST",
         credentials: "include",
         headers: {

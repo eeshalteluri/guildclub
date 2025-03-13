@@ -34,7 +34,7 @@ const FriendsPage = () => {
     console.log(data);
     setSearchedUsername(data.username);
 
-    const response = await fetch("https://checkche-backend.vercel.app/username/check-username", {
+    const response = await fetch("https://checkche-backend.onrender.com/username/check-username", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -63,7 +63,7 @@ useEffect(() => {
     if(!user?.username) return
 
     try{
-    const response = await fetch(`https://checkche-backend.vercel.app/friend?username=${user?.username}`, {
+    const response = await fetch(`https://checkche-backend.onrender.com/friend?username=${user?.username}`, {
       method: "GET",  
       credentials: "include",
     })
@@ -90,7 +90,7 @@ useEffect(() => {
     const fetchRequests = async function getRequests() {
       console.log("Fetching User initiated...")
       try {    
-        const response = await fetch(`https://checkche-backend.vercel.app/request`, {
+        const response = await fetch(`https://checkche-backend.onrender.com/request`, {
             credentials: 'include',
             method: 'GET',
           });

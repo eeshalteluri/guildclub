@@ -11,7 +11,7 @@ type TaskApprovalCardProps = {
 
 const approveTask = async(_id: string) => {
   try{
-    const response = await fetch("https://checkche-backend.vercel.app/task/approve", {
+    const response = await fetch("https://checkche-backend.onrender.com/task/approve", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -29,7 +29,7 @@ const approveTask = async(_id: string) => {
 }
 
 const reApproveTask = async(_id: string) => {
-  const response = await fetch("https://checkche-backend.vercel.app/task/request-approval", {
+  const response = await fetch("https://checkche-backend.onrender.com/task/request-approval", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -44,7 +44,7 @@ const reApproveTask = async(_id: string) => {
 }
 
 const rejectTask = async(_id: string) => {
-  const response = await fetch("https://checkche-backend.vercel.app/task/reject", {
+  const response = await fetch("https://checkche-backend.onrender.com/task/reject", {
     method: "POST",
     credentials: "include",
     headers: {
