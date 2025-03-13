@@ -35,6 +35,8 @@ const startServer = async () => {
         //CONFIGURE SESSION
         console.log("NODE_ENV: ", NODE_ENV)
 
+        server.set("trust proxy", 1);
+
         server.use(
             session({
                 secret: SESSION_SECRET,
