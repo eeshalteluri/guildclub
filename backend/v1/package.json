@@ -26,10 +26,10 @@
     "mongoose": "^8.9.5",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "tsx": "^4.19.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9",
-    "tsx": "^4.19.3"
+    "nodemon": "^3.1.9"
   }
 }
