@@ -3,7 +3,7 @@ import MongoStore from "connect-mongo"
 import cors from "cors"
 import session from "express-session"
 import passport from "passport"
-import GoogleStrategy from "passport-google-oauth20"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import connectDB from "./config/database"  // Import the database connection
 import app from "./routes/index"
 import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV, MONGODB_URI } from "./config"
@@ -57,13 +57,24 @@ const startServer = async () => {
         server.use(passport.initialize())
         server.use(passport.session())
 
-        passport.serializeUser((user, done) => {
-            done(null, user)
-        })
-
-        passport.deserializeUser((user, done) => {
-            done(null, user)
-        })
+        // Serialize user to store ID in session
+        passport.serializeUser((user: any, done) => {
+            console.log("Serializing user:", user);
+            done(null, user._id); // store only user ID in session
+        });
+  
+        // Deserialize user to get full user details using ID stored in session
+        passport.deserializeUser(async (id, done) => {
+            console.log("Deserializing user ID:", id);
+            try {
+              const user = await User.findById(id);
+              console.log("User fetched during deserialization:", user);
+              done(null, user);
+            } catch (err) {
+              console.error("Error in deserializing user:", err);
+              done(err);
+            }
+          });
 
         //CONFIGURE GOOGLE STRATEGY
         passport.use(new GoogleStrategy({
