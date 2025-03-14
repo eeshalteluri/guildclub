@@ -142,7 +142,7 @@ export default function Dashboard() {
       {Array.isArray(tasksData) && tasksData.length === 0 ? (
         <p className="text-center">no tasks found</p>
       ) : (
-        tasksData?.map((taskData) => <TaskCard key={taskData?.taskDetails._id} task={taskData} />)
+        tasksData?.map((taskData) => <TaskCard key={taskData?.taskDetails?._id} task={taskData} />)
       )}
     </div>
   );
