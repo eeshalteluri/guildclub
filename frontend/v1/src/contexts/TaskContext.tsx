@@ -28,8 +28,8 @@ export interface TaskData {
 }
 
 interface TaskDataContextType {
-  tasksData: TaskData[] | null;
-  setTasksData: (data: TaskData[] | null) => void;
+  tasksData: TaskData[] | [];
+  setTasksData: (data: TaskData[] | []) => void;
 }
 
 const TaskDataContext = createContext<TaskDataContextType | undefined>(undefined);
@@ -39,7 +39,7 @@ interface TaskDataProviderProps {
 }
 
 export function TaskDataProvider({ children }: TaskDataProviderProps) {
-  const [tasksData, setTasksData] = useState<TaskData[] | null>(null)
+  const [tasksData, setTasksData] = useState<TaskData[] |[]>([])
 
   console.log("Task Context Data: ",tasksData)
 
