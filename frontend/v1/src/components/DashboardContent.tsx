@@ -16,6 +16,7 @@ export default function Dashboard() {
   const searchParams = useSearchParams(); // Hook for reading query params
 
   console.log("Dashboard Page User Data: ", user);
+  console.log("Dashboard Page User Data: ", user);
 
   useEffect(() => {
     // Get token from URL query params
