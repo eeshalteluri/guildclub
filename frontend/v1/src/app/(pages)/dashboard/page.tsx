@@ -9,7 +9,7 @@ import Sidebar from "@/components/Sidebar";
 import TaskCard from "@/components/TaskCard";
 
 export default function Dashboard() {
-  const { user, setUser, token, setToken } = useUser();
+  const { user, setUser, setToken } = useUser();
   const { tasksData, setTasksData } = useTaskData();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();

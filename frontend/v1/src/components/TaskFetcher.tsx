@@ -4,9 +4,14 @@ import { useEffect, useState } from "react";
 import { useTaskData } from "@/contexts/TaskContext";
 import { useUser } from "@/contexts/UserContext";
 
-const { token } = useUser();
 
-async function fetchTaskLogs(taskIds: string[]) {
+export default function TaskFetcher({ taskIds }: { taskIds: string[] }) {
+  
+  const { token } = useUser();
+  const { setTasksData } = useTaskData();
+  const [isFetching, setIsFetching] = useState(false);
+
+  async function fetchTaskLogs(taskIds: string[]) {
     console.log("Fetching tasklogs initiated....")
     console.log("Fetching tasklog with the respective TaskIDs: ", taskIds)
   try {
@@ -34,10 +39,6 @@ async function fetchTaskLogs(taskIds: string[]) {
   }
   return [];
 }
-
-export default function TaskFetcher({ taskIds }: { taskIds: string[] }) {
-  const { setTasksData } = useTaskData();
-  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     async function updateTasks() {
