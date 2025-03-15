@@ -34,7 +34,7 @@ const FriendsPage = () => {
     console.log(data);
     setSearchedUsername(data.username);
 
-    const response = await fetch("http://localhost:5000/username/check-username", {
+    const response = await fetch("https://guildclub-develop-backend.onrender.com/username/check-username", {
       method: "POST",
       headers: {
           Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ useEffect(() => {
     if(!user?.username) return
 
     try{
-    const response = await fetch(`http://localhost:5000/friend?username=${user?.username}`, {
+    const response = await fetch(`https://guildclub-develop-backend.onrender.com/friend?username=${user?.username}`, {
       method: "GET",  
       headers: {
           Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ useEffect(() => {
     const fetchRequests = async function getRequests() {
       console.log("Fetching User initiated...")
       try {    
-        const response = await fetch(`http://localhost:5000/request`, {
+        const response = await fetch(`https://guildclub-develop-backend.onrender.com/request`, {
             method: 'GET',
             headers: {
           Authorization: `Bearer ${token}`,

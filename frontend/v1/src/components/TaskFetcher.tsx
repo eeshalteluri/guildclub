@@ -17,7 +17,7 @@ export default function TaskFetcher({ taskIds }: { taskIds: string[] }) {
   try {
     if (taskIds.length > 0) {
       console.log("Fetching Task Logs for:", taskIds);
-      const response = await fetch("http://localhost:5000/task/tasklogs", {
+      const response = await fetch("https://guildclub-develop-backend.onrender.com/task/tasklogs", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

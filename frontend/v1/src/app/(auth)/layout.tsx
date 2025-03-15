@@ -16,7 +16,7 @@ const SignInPage = ({children}: Readonly<{
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = "https://guildclub-develop-backend.onrender.com/auth/google";
   };
 
     return (
