@@ -35,7 +35,7 @@ router.get("/google/callback", passport.authenticate("google", { session: false 
 
 
   // Redirect with token in query param
-  res.redirect(`https://guildclub-develop-git-development-eeshalteluris-projects.vercel.app/dashboard?token=${token}`);
+  res.redirect(`https://guildclub-develop.vercel.app/dashboard?token=${token}`);
 });
 
 router.get("/user", isAuthenticated, async(req: AuthenticatedRequest, res: Response) => {

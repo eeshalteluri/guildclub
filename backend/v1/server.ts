@@ -26,7 +26,7 @@ const startServer = async () => {
         // CONFIGURE HEADER INFORMATION (MIDDLEWARES)
         server.use(express.json())      
         server.use(cors({
-            origin: 'https://guildclub-develop-git-development-eeshalteluris-projects.vercel.app',
+            origin: 'https://guildclub-develop.vercel.app',
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization'],
