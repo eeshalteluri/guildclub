@@ -15,7 +15,7 @@ const FriendCard = ({fullname, username, loggedInUsername}: {fullname: string, u
   const removeFriend = async(username: string, loggedInUsername: string) => {
     setIsRemoving(true)
     try{
-      const response =  await fetch("https://checkche-backend.onrender.com/friend",{
+      const response =  await fetch("http://localhost:5000/friend",{
       method: "DELETE",
       credentials: "include",
       headers: {

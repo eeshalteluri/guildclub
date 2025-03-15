@@ -2,7 +2,7 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, DialogContent,  DialogFooter, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import { Dialog, DialogContent,  DialogFooter, DialogTitle, DialogTrigger, DialogClose } from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -97,7 +97,7 @@ useEffect(() => {
       const bodyData = { ...data, userId };
       console.log("bodyData being sent:", bodyData);
 
-      const response = await fetch("https://checkche-backend.onrender.com/task/new-task",{
+      const response = await fetch("http://localhost:5000/task/new-task",{
         credentials: "include",
         method: "POST",
         headers: {
@@ -369,7 +369,9 @@ onSelect={(selectedDates) => {
         </div>
 
         <DialogFooter className="mt-6">
+        <DialogClose asChild>
           <Button type="submit">Add Task</Button>
+        </DialogClose>
         </DialogFooter>
         </form>
       </DialogContent>

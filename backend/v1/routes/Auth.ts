@@ -8,6 +8,9 @@ import Task from "../models/Task";
 import TaskLog from "../models/Tasklog";
 
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config";
+import User from "../models/User";
 
 
 const router = Router();
@@ -16,17 +19,39 @@ router.get("/google", passport.authenticate("google", {
     scope: ["email", "profile"]
 }));
 
-router.get("/google/callback", passport.authenticate("google", {
-    successRedirect: "https://checkche.vercel.app/dashboard",
-    failureRedirect: "https://checkche.vercel.app"
-}));
+// Google OAuth Callback
+router.get("/google/callback", passport.authenticate("google", { session: false }), (req: AuthenticatedRequest, res: Response): void => {
+  if (!req.user) {
+      res.status(401).json({ message: "Authentication failed" });
+      return;
+  }
 
-router.get("/user", isAuthenticated, (req: AuthenticatedRequest, res: Response) => {
+  // Generate a JWT token
+  const token = jwt.sign(
+      { id: (req.user as any)._id, email: (req.user as any).email },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+  );
+
+
+  // Redirect with token in query param
+  res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+});
+
+router.get("/user", isAuthenticated, async(req: AuthenticatedRequest, res: Response) => {
     console.log("User being fetched....")
     console.log("User Details: ", req.user)
     
     if (req.isAuthenticated() && req.user) {
-        res.status(200).json(req.user);
+        
+      const user = await User.findById(req.user.id);
+
+      console.log("User details: ", user)
+      res.status(200).json({
+        status: "success",
+        data: user,
+        message: "User details fetched successfully"
+      });
     } else {
         res.status(401).json({ 
             status: "error",
@@ -92,7 +117,7 @@ router.get("/task-data-and-logs", isAuthenticated, async (req: AuthenticatedRequ
     }
   })
 
-router.get("/logout", (req: AuthenticatedRequest, res: Response, next) => {
+router.get("/logout", (req: AuthenticatedRequest, res: Response, next): void => {
     req
     .logout((err) => {
         if (err) {

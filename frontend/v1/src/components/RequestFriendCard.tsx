@@ -22,7 +22,7 @@ import { useRequests } from "@/contexts/RequestContext";
       console.log("Delete Request: ", fromUsername, toUsername)
 
       try{
-        const response = await fetch("https://checkche-backend.onrender.com/request/friend-request",{
+        const response = await fetch("http://localhost:5000/request/friend-request",{
           method: "DELETE",
           credentials: "include",
           headers: {
@@ -83,7 +83,7 @@ import { useRequests } from "@/contexts/RequestContext";
       console.log("Add Friend: ", username, loggedInUsername, loggedInUserFullname)
 
       try{
-        const response = await fetch("https://checkche-backend.onrender.com/friend",{
+        const response = await fetch("http://localhost:5000/friend",{
           "method": "POST",
           "credentials": "include",
           "headers": {

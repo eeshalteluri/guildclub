@@ -217,7 +217,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
       }
   
       try {
-          const response = await fetch(`https://checkche-backend.onrender.com/task/today-log`, {
+          const response = await fetch(`http://localhost:5000/task/today-log`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -240,7 +240,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
 
   const handleDelete = async (taskId: string, userId: string) => {
     try{
-      const response = await fetch("https://checkche-backend.onrender.com/task", {
+      const response = await fetch("http://localhost:5000/task", {
         method: 'DELETE',
         credentials: "include",
         headers: {

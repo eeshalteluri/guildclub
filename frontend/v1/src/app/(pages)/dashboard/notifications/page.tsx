@@ -32,7 +32,7 @@ const NotificationPage = () => {
     if (!user?._id) return; // Prevent API call if userId is missing
   
     try {
-      const response = await fetch(`https://checkche-backend.onrender.com/notifications?userId=${user._id}`, {
+      const response = await fetch(`http://localhost:5000/notifications?userId=${user._id}`, {
         method: "GET",
         credentials: "include",
       });

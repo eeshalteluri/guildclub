@@ -5,8 +5,9 @@ import userRoutes from "./User"
 import requestRoutes from "./Request"
 import friendRoutes from "./Friend"
 import notificationRoutes from "./Notification"
-import checkLoggedIn from "../middlewares/IsLoggedIn"
+
 import taskRoutes from "./Task"
+import { isAuthenticated } from "../middlewares/Auth"
 
 const router = express.Router()
 
@@ -43,12 +44,12 @@ router.get("/api/v1", (req, res) => {
 })
 
 router.use("/auth", authRoutes)
-router.use("/username", checkLoggedIn, usernameRoutes)
-router.use("/task", checkLoggedIn, taskRoutes)
-router.use("/user", checkLoggedIn, userRoutes)
-router.use("/request", checkLoggedIn, requestRoutes)
-router.use("/friend", checkLoggedIn, friendRoutes)
-router.use("/notifications", checkLoggedIn, notificationRoutes)
+router.use("/username", isAuthenticated, usernameRoutes)
+router.use("/task", isAuthenticated, taskRoutes)
+router.use("/user", isAuthenticated, userRoutes)
+router.use("/request", isAuthenticated, requestRoutes)
+router.use("/friend", isAuthenticated, friendRoutes)
+router.use("/notifications", isAuthenticated, notificationRoutes)
 
 
 export default router

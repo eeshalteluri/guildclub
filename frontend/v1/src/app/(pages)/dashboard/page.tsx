@@ -1,120 +1,102 @@
-"use client";
+"use client"
 
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation"; // for query params
+import { useUser } from '@/contexts/UserContext';
+import { useTaskData } from "@/contexts/TaskContext";
 import ClaimUsername from "@/components/UsernameForm";
 import Sidebar from "@/components/Sidebar";
 import TaskCard from "@/components/TaskCard";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUser } from '@/contexts/UserContext';
-import { useTaskData } from "@/contexts/TaskContext";
 
 export default function Dashboard() {
   const { user, setUser } = useUser();
-  const {tasksData, setTasksData} = useTaskData();
+  const { tasksData, setTasksData } = useTaskData();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  
-  console.log("Dashboard Page User Data: ", user)
-  console.log("Dashboard Page Task Data: ", tasksData)
+  const searchParams = useSearchParams(); // Hook for reading query params
 
-  const checkCookieExpiration = () => {
-    const cookies = document.cookie.split(';');
-    const authCookie = cookies.find(cookie => cookie.trim().startsWith('connect.sid='));
-    
-    console.log('Checking cookie expiration');
-    
-    if (!authCookie) {
-      router.push('/');
-    }
-  };
-
-  fetch('https://checkche-backend.onrender.com/test-cookie', { credentials: 'include' });
-
+  console.log("Dashboard Page User Data: ", user);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-  
+    // Get token from URL query params
+    const tokenFromQuery = searchParams.get("token");
+
+    if (tokenFromQuery) {
+      console.log("Token from URL: ", tokenFromQuery);
+      localStorage.setItem("token", tokenFromQuery);
+      router.replace("/dashboard"); // clean the URL (remove token param)
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/");
+    }
+
     const fetchUser = async () => {
       try {
-        if(!user){
-          console.log('Fetching user...');
-          const response = await fetch("https://checkche-backend.onrender.com/auth/user", {
-            credentials: 'include',
-          });
-          
-  
-          if (response.ok) {
-            const data = await response.json();
-            console.log('User data after fetching from server:', data);
-            setUser(user? {...user as object, ...data}: data);
-          } else {
-            router.push('/');
-          }
-  
-        intervalId = setInterval(checkCookieExpiration, 1800000);
+        const response = await fetch("http://localhost:5000/auth/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const { data } = await response.json();
+          console.log('Fetched User: ', data);
+          setUser(data);
+        } else {
+          console.error("Failed to fetch user", response.statusText);
+          router.push("/");
         }
       } catch (error) {
-        console.error('Error:', error);
-        router.push('/');
+        console.error("Error fetching user", error);
+        router.push("/");
       } finally {
         setIsLoading(false);
       }
     };
-  
-    fetchUser();
-  
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, []); // Dependency added to avoid refetching when user is already available
 
+    fetchUser();
+  }, []);
+
+  // Fetch task logs based on user tasks
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     async function fetchTaskLogs(taskIds: string[]) {
       try {
         if (taskIds && taskIds.length > 0) {
-          console.log("User Tasks: ", taskIds);
-  
-          const response = await fetch(`https://checkche-backend.onrender.com/auth/task-data-and-logs?taskIds=${taskIds}`, {
-            credentials: 'include',
+          const response = await fetch(`http://localhost:5000/auth/task-data-and-logs?taskIds=${taskIds}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           });
-  
+
           if (response.ok) {
             const data = await response.json();
-            console.log("Tasklogs: ", data);
-            setTasksData(data.tasksLogsData); // ✅ Update context here
-            console.log("Tasks Data: ",tasksData)
+            console.log("Fetched Task Logs: ", data);
+            setTasksData(data.tasksLogsData);
           } else {
-            throw new Error(`Failed to fetch tasks: ${response.statusText}`);
+            console.error("Failed to fetch tasks", response.statusText);
           }
-        } else {
-          console.log("Tasks array is empty!");
         }
       } catch (error) {
-        console.error("Error fetching Tasklogs: ", error);
+        console.error("Error fetching tasks", error);
       }
     }
-  
-    // Only fetch if user and tasks are available
+
     if (user?.tasks?.length) {
       fetchTaskLogs(user.tasks);
     }
-  
-  }, [user]); // ✅ Depend on user, so it runs when user is set
-  
-  
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  }, [user]);
 
-  if (!user) {
-    return <div>Please log in to view this page</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
-  // Pass this function to any component that updates user details
-  const handleUserUpdate = () => {
-    // This function is no longer needed as the user is fetched automatically
-  };
+  if (!user) return <div>Please log in to view this page</div>;
+
+  const handleUserUpdate = () => { /* if needed in the future */ };
 
   return (
     <div>
@@ -129,16 +111,8 @@ export default function Dashboard() {
               <ClaimUsername onUpdate={handleUserUpdate} />
             </div>
           )}
-
         </div>
       </div>
-
-      {/*<div className="flex justify-between align-center px-2 gap-2 h-[200px] xs:h-[250px]">
-        <ProgressCard />
-        <RemainingTasks />
-      </div>*/}
-
-      {/* Render TaskCard for each task */}
       {Array.isArray(tasksData) && tasksData.length === 0 ? (
         <p className="text-center">no tasks found</p>
       ) : (

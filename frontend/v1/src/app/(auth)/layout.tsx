@@ -16,7 +16,7 @@ const SignInPage = ({children}: Readonly<{
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://checkche-backend.onrender.com/auth/google";
+    window.location.href = "http://localhost:5000/auth/google";
   };
 
     return (

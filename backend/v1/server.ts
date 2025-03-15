@@ -6,8 +6,9 @@ import passport from "passport"
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import connectDB from "./config/database"  // Import the database connection
 import app from "./routes/index"
-import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV, MONGODB_URI } from "./config"
+import { PORT, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV, MONGODB_URI } from "./config"
 import User from "./models/User"
+import jwt from "jsonwebtoken"
 
 
 const startServer = async () => {
@@ -25,7 +26,7 @@ const startServer = async () => {
         // CONFIGURE HEADER INFORMATION (MIDDLEWARES)
         server.use(express.json())      
         server.use(cors({
-            origin: 'https://checkche.vercel.app',
+            origin: 'http://localhost:3000',
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization'],
@@ -37,52 +38,14 @@ const startServer = async () => {
 
         server.set("trust proxy", 1);
 
-        server.use(
-            session({
-                secret: SESSION_SECRET,
-                resave: false,
-                saveUninitialized: false,
-                store: MongoStore.create({
-                    mongoUrl: MONGODB_URI, // your MongoDB connection string
-                    collectionName: 'sessions',
-                  }),
-                cookie: {
-                    secure: NODE_ENV === 'production', // false in development
-                    httpOnly: true,
-                    maxAge: 60 * 60 * 1000, // 1 hour
-                    sameSite: 'none'
-                }
-            })
-        )
-
         //CONFIGURE PASSPORT
         server.use(passport.initialize())
-        server.use(passport.session())
-
-        // Serialize user to store ID in session
-        passport.serializeUser((user: any, done) => {
-            console.log("Serializing user:", user);
-            done(null, user._id); // store only user ID in session
-        });
-  
-        // Deserialize user to get full user details using ID stored in session
-        passport.deserializeUser(async (id, done) => {
-            console.log("Deserializing user ID:", id);
-            try {
-              const user = await User.findById(id);
-              console.log("User fetched during deserialization:", user);
-              done(null, user);
-            } catch (err) {
-              console.error("Error in deserializing user:", err);
-              done(err);
-            }
-          });
 
         //CONFIGURE GOOGLE STRATEGY
         passport.use(new GoogleStrategy({
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "https://checkche-backend.onrender.com/auth/google/callback",
+            callbackURL: "http://localhost:5000/auth/google/callback",
             passReqToCallback: true,
         }, async(request, accessToken, refreshToken, profile, done) => {
             try {
