@@ -18,7 +18,7 @@ import { Ban, Check, Loader } from "lucide-react"
   
 
 const ClaimUsername = ({ onUpdate }: { onUpdate: () => void }) => {
-  const {user, setUser} = useUser()
+  const {user, setUser, token} = useUser()
   const [username, setUsername] = useState("")
   const [isLoading, setLoading] = useState(false)
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null)
@@ -36,9 +36,9 @@ const ClaimUsername = ({ onUpdate }: { onUpdate: () => void }) => {
       const response = await fetch("http://localhost:5000/username/check-username", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: 'include',
         body: JSON.stringify({ username: username.trim() })
       });
 
@@ -73,9 +73,9 @@ const ClaimUsername = ({ onUpdate }: { onUpdate: () => void }) => {
       const response = await fetch("http://localhost:5000/username/claim-username", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({ username }),
       });
 

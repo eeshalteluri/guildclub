@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 import { useUser } from "@/contexts/UserContext"
 
 const ProfilePage = () => {
-  const {user, setUser} = useUser()
+  const {user, setUser, token} = useUser()
   const [ name , setName] = useState<string>(user?.name ?? "")
   const [username, setUsername] = useState<string>(user?.username ?? "")
   const [loading, setLoading] = useState<{ name: boolean; username: boolean, logout: boolean }>({
@@ -33,10 +33,10 @@ const ProfilePage = () => {
     
         const response = await fetch("http://localhost:5000/user/update-name", {
       method: "PUT",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-      },
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
+        },
       body: JSON.stringify({ name }),
         })
 
@@ -65,10 +65,10 @@ const ProfilePage = () => {
     
         const response = await fetch("http://localhost:5000/username/update-username", {
       method: "PUT",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-      },
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
+        },
       body: JSON.stringify({ username }),
         })
 
@@ -95,21 +95,30 @@ const ProfilePage = () => {
     try {
         const response = await fetch("http://localhost:5000/auth/logout", {
             method: "GET",
-            credentials: "include", // Ensure cookies are sent with the request
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         });
 
-        console.log("Logout response: ", response);
+        console.log("Logout response: ", response)
 
         if (response.ok) {
-            console.log("Logout successful")
-           router.push("/") // Redirect manually in the frontend
+            console.log("Logout successful");
+
+            // ✅ Remove token from localStorage (or sessionStorage depending on where you store it)
+            localStorage.removeItem('token');
+
+            // ✅ Redirect user to login or home page
+            router.push("/"); // Or "/login" based on your flow
         } else {
-            console.log("Logout failed")
+            console.log("Logout failed");
         }
     } catch (error) {
-        console.error("Logout error: ", error)
+        console.error("Logout error: ", error);
     }
 };
+
 
   return (
     <Card className="w-[350px] mt-4 mx-auto">

@@ -22,7 +22,7 @@ import { useUser } from "@/contexts/UserContext"
 
 const ClaimUsername = () => {
 
-  const { user, setUser} = useUser()
+  const { user, setUser, token} = useUser()
   const [username, setUsername] = useState("")
   const [isLoading, setLoading ] = useState(false)
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null)
@@ -46,9 +46,10 @@ const ClaimUsername = () => {
         setLoading(true)
 
         try{
-          const response = await fetch("/api/check-username", {
+          const response = await fetch("http://localhost:5000/username/check-username", {
             method: "POST",
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({username})

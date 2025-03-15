@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useTaskData } from "@/contexts/TaskContext";
+import { useUser } from "@/contexts/UserContext";
+
+const { token } = useUser();
 
 async function fetchTaskLogs(taskIds: string[]) {
     console.log("Fetching tasklogs initiated....")
@@ -11,9 +14,9 @@ async function fetchTaskLogs(taskIds: string[]) {
       console.log("Fetching Task Logs for:", taskIds);
       const response = await fetch("http://localhost:5000/task/tasklogs", {
         method: "POST",
-        credentials: "include",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
         },
         body: JSON.stringify({ taskIds }),
       });

@@ -117,19 +117,10 @@ router.get("/task-data-and-logs", isAuthenticated, async (req: AuthenticatedRequ
     }
   })
 
-router.get("/logout", (req: AuthenticatedRequest, res: Response, next): void => {
-    req
-    .logout((err) => {
-        if (err) {
-            return next(err)
-        }
-    }),
-    res.status(200)
-    .json({ 
-        status: "success",
-        message: "Successfully logged out" 
-    });
-})
+  router.get('/logout', (req, res) => {
+    // Just tell client to delete token
+    res.json({ message: 'Successfully logged out.' });
+  });
 
 
 

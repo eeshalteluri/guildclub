@@ -37,7 +37,7 @@ const monthName = date.getMonth().toString()
 console.log(typeof(monthName))
 
 const AddNewTask = () => {
-  const { user, setUser } = useUser()
+  const { user, setUser, token } = useUser()
   const { tasksData, setTasksData } = useTaskData();
   console.log("user: ", user)
   const userId = user?._id
@@ -98,10 +98,10 @@ useEffect(() => {
       console.log("bodyData being sent:", bodyData);
 
       const response = await fetch("http://localhost:5000/task/new-task",{
-        credentials: "include",
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
         },
         body: JSON.stringify(bodyData),
       });

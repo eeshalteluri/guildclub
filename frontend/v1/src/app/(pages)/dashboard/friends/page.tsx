@@ -23,7 +23,7 @@ export interface requestData {
 }
 
 const FriendsPage = () => {
-  const {user, setUser} = useUser()
+  const {user, setUser, token} = useUser()
   const { requests, setRequests } = useRequests();
   const [searchedUsername, setSearchedUsername] = useState("");
   const [searchedUser, setSearchedUser] = useState({ fullName: "", userName: ""});
@@ -36,13 +36,14 @@ const FriendsPage = () => {
 
     const response = await fetch("http://localhost:5000/username/check-username", {
       method: "POST",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-      },
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
+        },
       body: JSON.stringify({
         username: data.username,
       }),
+      
     });
 
     const userData = await response.json();
@@ -65,7 +66,10 @@ useEffect(() => {
     try{
     const response = await fetch(`http://localhost:5000/friend?username=${user?.username}`, {
       method: "GET",  
-      credentials: "include",
+      headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
     })
 
     if (!response.ok) throw new Error("Failed to fetch friends");
@@ -91,8 +95,11 @@ useEffect(() => {
       console.log("Fetching User initiated...")
       try {    
         const response = await fetch(`http://localhost:5000/request`, {
-            credentials: 'include',
             method: 'GET',
+            headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
           });
     
         console.log("Response fetching Request: ", response)

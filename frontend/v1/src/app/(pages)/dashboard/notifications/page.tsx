@@ -25,7 +25,7 @@ interface NotificationType {
 }
 
 const NotificationPage = () => {
-  const { user } = useUser();
+  const { user, token } = useUser();
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
   const fetchNotifications = async () => {
@@ -34,7 +34,10 @@ const NotificationPage = () => {
     try {
       const response = await fetch(`http://localhost:5000/notifications?userId=${user._id}`, {
         method: "GET",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
       console.log("Notification Data: ", data)

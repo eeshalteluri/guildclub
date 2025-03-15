@@ -9,7 +9,7 @@ import Sidebar from "@/components/Sidebar";
 import TaskCard from "@/components/TaskCard";
 
 export default function Dashboard() {
-  const { user, setUser } = useUser();
+  const { user, setUser, token, setToken } = useUser();
   const { tasksData, setTasksData } = useTaskData();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -27,38 +27,43 @@ export default function Dashboard() {
       router.replace("/dashboard"); // clean the URL (remove token param)
     }
 
-    const token = localStorage.getItem("token");
+    const JWTtoken = localStorage.getItem("token");
+    
 
-    if (!token) {
+    if (!JWTtoken) {
       router.push("/");
     }
 
-    const fetchUser = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/auth/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    if (JWTtoken) {
+      setToken(JWTtoken); // Update token in context
+    }
 
-        if (response.ok) {
-          const { data } = await response.json();
-          console.log('Fetched User: ', data);
-          setUser(data);
-        } else {
-          console.error("Failed to fetch user", response.statusText);
+      const fetchUser = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/auth/user", {
+            headers: {
+              Authorization: `Bearer ${JWTtoken}`,
+            },
+          });
+  
+          if (response.ok) {
+            const { data } = await response.json();
+            console.log('Fetched User: ', data);
+            setUser(data);
+          } else {
+            console.error("Failed to fetch user", response.statusText);
+            router.push("/");
+          }
+        } catch (error) {
+          console.error("Error fetching user", error);
           router.push("/");
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching user", error);
-        router.push("/");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+      };
+  
+      fetchUser();
+    }, []);
 
   // Fetch task logs based on user tasks
   useEffect(() => {
@@ -69,8 +74,9 @@ export default function Dashboard() {
         if (taskIds && taskIds.length > 0) {
           const response = await fetch(`http://localhost:5000/auth/task-data-and-logs?taskIds=${taskIds}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
+        },
           });
 
           if (response.ok) {

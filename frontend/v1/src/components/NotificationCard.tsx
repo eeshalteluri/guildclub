@@ -1,5 +1,7 @@
+"use client";
 import { Card } from "./ui/card"
 import { Button } from "./ui/button"
+import { useUser } from "@/contexts/UserContext";
 
 type TaskApprovalCardProps = {
   _id: string;
@@ -9,56 +11,58 @@ type TaskApprovalCardProps = {
   date: string;
 };
 
-const approveTask = async(_id: string) => {
-  try{
-    const response = await fetch("http://localhost:5000/task/approve", {
+
+
+const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprovalCardProps) => {
+  const { token } = useUser();
+  
+  const approveTask = async(_id: string) => {
+    try{
+      const response = await fetch("http://localhost:5000/task/approve", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+  "Content-Type": "application/json",
+          },
+        body: JSON.stringify({
+          notificationId: _id
+        }),
+      })
+  
+      console.log("Task Approval response: ", response)
+    }catch(error){
+      console.log("Error: ",error)
+    }
+  }
+  
+  const reApproveTask = async(_id: string) => {
+    const response = await fetch("http://localhost:5000/task/request-approval", {
       method: "POST",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         notificationId: _id
       }),
     })
-
-    console.log("Task Approval response: ", response)
-  }catch(error){
-    console.log("Error: ",error)
+  
+    console.log("Task Request Approval response: ", response)
   }
-}
-
-const reApproveTask = async(_id: string) => {
-  const response = await fetch("http://localhost:5000/task/request-approval", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      notificationId: _id
-    }),
-  })
-
-  console.log("Task Request Approval response: ", response)
-}
-
-const rejectTask = async(_id: string) => {
-  const response = await fetch("http://localhost:5000/task/reject", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      notificationId: _id
-    }),
-  })
-
-  console.log("Task Rejection response: ", response)
-}
-
-const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprovalCardProps) => {
+  
+  const rejectTask = async(_id: string) => {
+    const response = await fetch("http://localhost:5000/task/reject", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        notificationId: _id
+      }),
+    })
+  
+    console.log("Task Rejection response: ", response)
+  }
+  
   if(status === "approval-pending"){
     return (
       <div>

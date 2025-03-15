@@ -11,16 +11,16 @@ import { useRequests } from "@/contexts/RequestContext";
 
   
   const FriendCard = ({fullname, username, loggedInUsername}: {fullname: string, username: string, loggedInUsername: string}) => {
-    const {user} = useUser()
+    const {user, token} = useUser()
     const { requests, setRequests } = useRequests()
     console.log(username, loggedInUsername)
 
     const sendFriendRequest = async () => {
       const response = await fetch("http://localhost:5000/friend/send-request", {
         method: "POST",
-        credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
         },
         body: JSON.stringify({
           toUsername: username,

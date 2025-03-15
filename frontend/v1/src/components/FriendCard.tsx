@@ -11,16 +11,16 @@ const FriendCard = ({fullname, username, loggedInUsername}: {fullname: string, u
   console.log("FriendCard being rendered...")
   
   const [isRemoving, setIsRemoving] = useState(false);
-  const { user, setUser } = useUser()
+  const { user, setUser, token } = useUser()
   const removeFriend = async(username: string, loggedInUsername: string) => {
     setIsRemoving(true)
     try{
       const response =  await fetch("http://localhost:5000/friend",{
       method: "DELETE",
-      credentials: "include",
       headers: {
-      "Content-Type": "application/json"
-      },
+          Authorization: `Bearer ${token}`,
+"Content-Type": "application/json",
+        },
       body: JSON.stringify({
         username,
         loggedInUsername

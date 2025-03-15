@@ -9,7 +9,7 @@ import { useUser } from "@/contexts/UserContext";
 import { useRequests } from "@/contexts/RequestContext";
   
   const RequestFriendCard = ({ fullname, username, type }: { fullname: string, username: string, type: string }) => {
-    const { user, setUser } = useUser();
+    const { user, setUser, token } = useUser();
     const { requests, setRequests } = useRequests();
     const [ isClicked, setIsClicked ] = useState<boolean>(false)
 
@@ -24,9 +24,8 @@ import { useRequests } from "@/contexts/RequestContext";
       try{
         const response = await fetch("http://localhost:5000/request/friend-request",{
           method: "DELETE",
-          credentials: "include",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             fromUsername, toUsername
@@ -85,9 +84,8 @@ import { useRequests } from "@/contexts/RequestContext";
       try{
         const response = await fetch("http://localhost:5000/friend",{
           "method": "POST",
-          "credentials": "include",
-          "headers": {
-            "Content-Type": "application/json"
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             username,

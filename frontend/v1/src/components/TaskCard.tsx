@@ -111,7 +111,7 @@ type MarkButtonValue = "Mark" | "Unmark" | "Request" | "Reject";
 type TodayTempLogColorValue = "bg-green-300" | "bg-lime-300" |"bg-yellow-300" | "bg-red-300" | "bg-gray-200";
 
 const TaskCard: React.FC<TaskCardProps> = (taskData) => {
-  const { user, setUser } = useUser();
+  const { user, setUser, token } = useUser();
   const {tasksData, setTasksData} = useTaskData();
   const [ markButtonValue, setMarkButtonValue ] = useState<MarkButtonValue>();
   const [todayTempLogColor, setTodayTempLogColor] = useState<TodayTempLogColorValue>("bg-gray-200");
@@ -219,10 +219,10 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
       try {
           const response = await fetch(`http://localhost:5000/task/today-log`, {
               method: "POST",
-              credentials: "include",
               headers: {
-                  "Content-Type": "application/json",
-              },
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
               body: JSON.stringify({ taskId: taskDetails?._id, taskType: taskDetails?.type, todayLog: doesTodayExist, buttonValue: markButtonValue, accountabilityPartner: taskDetails?.accountabilityPartner?.username, userId: taskDetails?.userId }),
           });
   
@@ -242,8 +242,8 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
     try{
       const response = await fetch("http://localhost:5000/task", {
         method: 'DELETE',
-        credentials: "include",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({taskId, userId})
