@@ -145,7 +145,7 @@ const PrivacyPolicy = () => {
           </a>
         </p>
         <p>🏢 Company Name: Cheche</p>
-        <p>🌐 Website: http://localhost:3000</p>
+        <p>🌐 Website: https://guildclub-develop-git-development-eeshalteluris-projects.vercel.app</p>
       </section>
     </div>
   );
