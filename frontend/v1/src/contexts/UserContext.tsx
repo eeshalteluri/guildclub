@@ -2,9 +2,9 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export interface FriendsType{
-  username: string,
-  name: string,
+export interface FriendsType {
+  username: string;
+  name: string;
 }
 
 export interface UserType {
@@ -14,7 +14,7 @@ export interface UserType {
   username: string;
   tasks: string[];
   friends: FriendsType[];
-  groups: string[]
+  groups: string[];
   // Add other user properties as needed
 }
 
@@ -25,25 +25,42 @@ interface UserContextType {
   setToken: (token: string) => void;
 }
 
-
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserProvider({ children }: { children: ReactNode;} ) {
+export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserType | null>(null);
-  const [token, setToken] = useState<string >("");
+  const [token, setToken] = useState<string>("");
 
-  console.log("user Context Data: ", user)
+  console.log("User Context Data: ", user);
 
+  // On first load, get from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
-    if(storedToken && storedUser) {
+    if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
     }
+  }, []);
 
-  },[])
+  // Sync user to localStorage
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user'); // Clear on logout
+    }
+  }, [user]);
+
+  // Sync token to localStorage
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token'); // Clear on logout
+    }
+  }, [token]);
 
   return (
     <UserContext.Provider value={{ user, setUser, token, setToken }}>
@@ -58,4 +75,4 @@ export function useUser() {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;
-} 
+}
