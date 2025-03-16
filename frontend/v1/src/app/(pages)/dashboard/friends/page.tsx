@@ -91,6 +91,9 @@ fetchFriends()
 }, [])
 
 useEffect(() => {
+
+  console.log("Requests are being fetched")
+  console.log("Token: ", token)
     const fetchRequests = async function getRequests() {
       console.log("Fetching User initiated...")
       try {    

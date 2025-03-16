@@ -51,6 +51,7 @@ export default function Dashboard() {
             const { data } = await response.json();
             console.log('Fetched User: ', data);
             setUser(data);
+            localStorage.setItem("user", JSON.stringify(data));
           } else {
             console.error("Failed to fetch user", response.statusText);
             router.push("/");
@@ -76,7 +77,7 @@ export default function Dashboard() {
           const response = await fetch(`https://guildclub-develop-backend.onrender.com/auth/task-data-and-logs?taskIds=${taskIds}`, {
             headers: {
           Authorization: `Bearer ${token}`,
-"Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
           });
 

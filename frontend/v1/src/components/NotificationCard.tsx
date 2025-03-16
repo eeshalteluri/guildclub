@@ -22,7 +22,7 @@ const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprova
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
+            "Content-Type": "application/json",
           },
         body: JSON.stringify({
           notificationId: _id

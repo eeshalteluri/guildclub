@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export interface FriendsType{
   username: string,
@@ -33,6 +33,17 @@ export function UserProvider({ children }: { children: ReactNode;} ) {
   const [token, setToken] = useState<string >("");
 
   console.log("user Context Data: ", user)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+
+    if(storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+    }
+
+  },[])
 
   return (
     <UserContext.Provider value={{ user, setUser, token, setToken }}>
