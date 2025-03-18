@@ -12,35 +12,40 @@ export default function Dashboard() {
   const { user, setUser, token, setToken } = useUser();
   const { tasksData, setTasksData } = useTaskData();
   const [isLoading, setIsLoading] = useState(true);
-  const [tokenReady, setTokenReady] = useState(false); // ✅ token readiness
+  const [tokenReady, setTokenReady] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const tokenFromQuery = searchParams.get("token");
-
-    if (tokenFromQuery) {
-      console.log("Token from query:", tokenFromQuery);
-      localStorage.setItem("token", tokenFromQuery);
-      setToken(tokenFromQuery); // ✅ Set in context too
-      router.replace("/dashboard"); // Clean URL
-    }
-  }, [searchParams]);
+  console.log("Search Params: ", searchParams.size);
 
   useEffect(() => {
-    const JWTtoken = localStorage.getItem("token");
-    console.log("Token from localStorage:", JWTtoken);
+    console.log("Dashboard useEffect hook called");
 
-    if (!JWTtoken) {
-      router.push("/");
-    } else {
-      setToken(JWTtoken); // ✅ Set in context
-      setTokenReady(true); // ✅ Mark token as ready
+    if (searchParams.size > 0) {
+      const token = searchParams.get("token");
+      console.log("Dashboard Token: ", token);
+      if (token) {
+      localStorage.setItem("token", token || "");
+      setTokenReady(true);
+      router.replace("/dashboard");
+      } else {
+        router.push("/");
+      }
     }
   }, []);
 
-  // ✅ Fetch user only when token is ready
   useEffect(() => {
+    console.log("Token useEffect hook called");
+    const token = localStorage.getItem("token");
+    console.log("Token Token: ", token);
+    if (token) {
+      setToken(token);
+      setTokenReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("User useEffect hook called");
     if (!tokenReady) return;
 
     const fetchUser = async () => {
@@ -70,10 +75,10 @@ export default function Dashboard() {
     };
 
     fetchUser();
-  }, [token]);
+  }, [tokenReady]);
 
-  // ✅ Fetch tasks when user is set
   useEffect(() => {
+    console.log("Task useEffect hook called");
     if (!user?.tasks || user.tasks.length === 0) return;
 
     async function fetchTaskLogs(taskIds: string[]) {

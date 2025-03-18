@@ -32,7 +32,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState(true); // New state to track initialization
 
-  console.log("User Context Data: ", user);
+  console.log("User Context Data before: ", user);
+  console.log("Token Data before: ", token);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -44,19 +45,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(false); // Mark as initialized
   }, []);
 
+  console.log("User Context Data after: ", user);
+  console.log("Token Data after: ", token);
+
+  
+
   useEffect(() => {
     if (token !== '') {
       localStorage.setItem('token', token);
-    } else {
-      localStorage.removeItem('token');
-    }
+    } 
   }, [token]);
 
   useEffect(() => {
     if (user !== null) {
       localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
     }
   }, [user]);
 
