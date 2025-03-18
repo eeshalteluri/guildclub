@@ -18,7 +18,7 @@ const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprova
   
   const approveTask = async(_id: string) => {
     try{
-      const response = await fetch("http://localhost:5000/task/approve", {
+      const response = await fetch("https://guildclub-develop-backend.onrender.com/task/approve", {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -36,7 +36,7 @@ const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprova
   }
   
   const reApproveTask = async(_id: string) => {
-    const response = await fetch("http://localhost:5000/task/request-approval", {
+    const response = await fetch("https://guildclub-develop-backend.onrender.com/task/request-approval", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ const NotificationCard = ({ _id, fullName, taskName, date, status }: TaskApprova
   }
   
   const rejectTask = async(_id: string) => {
-    const response = await fetch("http://localhost:5000/task/reject", {
+    const response = await fetch("https://guildclub-develop-backend.onrender.com/task/reject", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

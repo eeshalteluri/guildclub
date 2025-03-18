@@ -46,7 +46,7 @@ const ClaimUsername = () => {
         setLoading(true)
 
         try{
-          const response = await fetch("http://localhost:5000/username/check-username", {
+          const response = await fetch("https://guildclub-develop-backend.onrender.com/username/check-username", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,

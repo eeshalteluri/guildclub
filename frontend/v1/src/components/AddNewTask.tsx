@@ -97,7 +97,7 @@ useEffect(() => {
       const bodyData = { ...data, userId };
       console.log("bodyData being sent:", bodyData);
 
-      const response = await fetch("http://localhost:5000/task/new-task",{
+      const response = await fetch("https://guildclub-develop-backend.onrender.com/task/new-task",{
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
