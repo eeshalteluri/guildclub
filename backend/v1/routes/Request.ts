@@ -11,7 +11,8 @@ router.get("/",async (req: AuthenticatedRequest, res: Response):Promise<any> => 
     console.log("Request route is working...")
 
     try{   
-        const username = req.user.username
+        const {username} = req.query
+        console.log("Username: ", username)
 
         if(username){
             const findUser =  await findUserDetails(username)
@@ -62,12 +63,12 @@ router.get("/",async (req: AuthenticatedRequest, res: Response):Promise<any> => 
             requests: { receivedRequests ,sentRequests }
         })        
         }
-        }catch (error) {
-            console.error("Error fetching requests sent:", error)
-            return res.status(500).json(
-              { error: "Failed to fetch requests sent" }
-            )
-          }
+    }catch (error) {
+        console.error("Error fetching requests sent:", error)
+        return res.status(500).json(
+            { error: "Failed to fetch requests sent" }
+        )
+    }
 })
 
 router.post("/friend-request", async (req: Request, res: Response):Promise<any> => {

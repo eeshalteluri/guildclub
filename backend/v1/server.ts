@@ -26,7 +26,7 @@ const startServer = async () => {
         // CONFIGURE HEADER INFORMATION (MIDDLEWARES)
         server.use(express.json())      
         server.use(cors({
-            origin: 'https://guildclub-develop.vercel.app',
+            origin: 'http://localhost:3000',
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization'],
@@ -45,7 +45,7 @@ const startServer = async () => {
         passport.use(new GoogleStrategy({
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "https://guildclub-develop-backend.onrender.com/auth/google/callback",
+            callbackURL: "http://localhost:5000/auth/google/callback",
             passReqToCallback: true,
         }, async(request, accessToken, refreshToken, profile, done) => {
             try {

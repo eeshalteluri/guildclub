@@ -15,7 +15,6 @@ export interface UserType {
   tasks: string[];
   friends: FriendsType[];
   groups: string[];
-  // Add other user properties as needed
 }
 
 interface UserContextType {
@@ -23,47 +22,46 @@ interface UserContextType {
   setUser: (user: UserType | null) => void;
   token: string;
   setToken: (token: string) => void;
+  loading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserType | null>(null);
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string>('');
+  const [loading, setLoading] = useState(true); // New state to track initialization
 
   console.log("User Context Data: ", user);
 
-  // On first load, get from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
+    if (storedToken) setToken(storedToken);
+    if (storedUser) setUser(JSON.parse(storedUser));
+
+    setLoading(false); // Mark as initialized
   }, []);
 
-  // Sync user to localStorage
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user'); // Clear on logout
-    }
-  }, [user]);
-
-  // Sync token to localStorage
-  useEffect(() => {
-    if (token) {
+    if (token !== '') {
       localStorage.setItem('token', token);
     } else {
-      localStorage.removeItem('token'); // Clear on logout
+      localStorage.removeItem('token');
     }
   }, [token]);
 
+  useEffect(() => {
+    if (user !== null) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [user]);
+
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken, loading }}>
       {children}
     </UserContext.Provider>
   );

@@ -11,7 +11,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@/contexts/UserContext"
 
@@ -25,13 +25,21 @@ const ProfilePage = () => {
     logout: false
   })
 
+  // Sync name and username when user is available
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setUsername(user.username || "");
+    }
+  }, [user]);
+
   const router = useRouter()
 
   const handleChangeName = async () => {
     try{
       setLoading((prev) => ({ ...prev, name: true }))
     
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/user/update-name", {
+        const response = await fetch("http://localhost:5000/user/update-name", {
       method: "PUT",
       headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +71,7 @@ const ProfilePage = () => {
     try{
       setLoading((prev) => ({ ...prev, username: true }))
     
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/username/update-username", {
+        const response = await fetch("http://localhost:5000/username/update-username", {
       method: "PUT",
       headers: {
           Authorization: `Bearer ${token}`,
@@ -93,7 +101,7 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/auth/logout", {
+        const response = await fetch("http://localhost:5000/auth/logout", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

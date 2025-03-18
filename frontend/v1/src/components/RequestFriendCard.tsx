@@ -22,10 +22,11 @@ import { useRequests } from "@/contexts/RequestContext";
       console.log("Delete Request: ", fromUsername, toUsername)
 
       try{
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/request/friend-request",{
+        const response = await fetch("http://localhost:5000/request/friend-request",{
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             fromUsername, toUsername
@@ -82,10 +83,11 @@ import { useRequests } from "@/contexts/RequestContext";
       console.log("Add Friend: ", username, loggedInUsername, loggedInUserFullname)
 
       try{
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/friend",{
+        const response = await fetch("http://localhost:5000/friend",{
           "method": "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             username,
