@@ -23,12 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Add this line explicitly */}
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={`${poppins.className} antialiased`}>
-          <div className="h-full">
-            {children}
-          </div>
+        <div className="h-full">{children}</div>
         <Toaster />
       </body>
     </html>
   );
 }
+
