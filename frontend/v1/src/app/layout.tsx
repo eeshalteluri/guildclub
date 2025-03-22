@@ -13,6 +13,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "CheckChe",
   description: "Be accountable at what you do",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
