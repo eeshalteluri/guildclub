@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <meta name="apple-mobile-web-app-title" content="Guildclub" />
+      </head>
       <body className={`${poppins.className} antialiased`}>
           <div className="h-full">
             {children}
