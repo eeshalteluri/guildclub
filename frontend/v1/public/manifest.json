@@ -26,13 +26,13 @@
     "description":"Task tracker to keep you accountable.",
     "screenshots": [
     {
-      "src": "/screenshot-1080x1920.png",
+      "src": "screenshot-1080x1920.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow"
     },
     {
-      "src": "/screenshot-1920x1080.png",
+      "src": "screenshot-1920x1080.png",
       "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide"
