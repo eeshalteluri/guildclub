@@ -44,7 +44,7 @@ const PWAInstall = () => {
   return (
     <div>
       {showButton && (
-        <Card className="fixed top-2 left-1/2 transform -translate-x-1/2 max-w-2xl m-2 p-4 bg-gray-100 rounded flex justify-between items-center gap-4">
+        <Card className="fixed top-2 left-1/2 transform -translate-x-1/2 p-4 max-w-78 bg-gray-100 rounded flex justify-center items-center gap-4 text-nowrap">
         <p>Add app to Home screen</p>
           <Button onClick={handleInstall}>
             Install

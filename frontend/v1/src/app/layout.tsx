@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "CheckChe",
+  title: "Guilclub",
   description: "Be accountable at what you do",
   manifest: "/manifest.json",
 };
