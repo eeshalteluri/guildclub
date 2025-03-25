@@ -43,6 +43,7 @@ export function DatePicker({
           <Calendar
             mode="single"
             selected={date || undefined}
+            className="bg-secondary text-primary"
             onSelect={(selectedDate: Date | undefined) => onDateChange(selectedDate!)}
             initialFocus
           />

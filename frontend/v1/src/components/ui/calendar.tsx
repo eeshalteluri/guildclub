@@ -2,34 +2,12 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker, NavProps } from "react-day-picker"
+import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
-
-// Custom navigation component
-const CustomNav = ({ onNextClick, onPreviousClick, nextMonth, previousMonth }: NavProps) => (
-  <div className="space-x-1 flex items-center absolute right-1">
-    <button
-      type="button"
-      onClick={(e) => onPreviousClick?.(e)}
-      disabled={!previousMonth}
-      className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
-    >
-      <ChevronLeft className="h-4 w-4" />
-    </button>
-    <button
-      type="button"
-      onClick={(e) => onNextClick?.(e)}
-      disabled={!nextMonth}
-      className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
-    >
-      <ChevronRight className="h-4 w-4" />
-    </button>
-  </div>
-);
 
 function Calendar({
   className,
@@ -42,8 +20,8 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
-        months: " flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "w-full space-y-2",
+        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+        month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
@@ -54,10 +32,10 @@ function Calendar({
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
         table: "w-full border-collapse space-y-1",
-        head_row: "flex justify-between",
+        head_row: "flex justify-center",
         head_cell:
           "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
-        row: "flex justify-between w-full mt-2",
+        row: "flex justify-center w-full mt-2",
         cell: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
           props.mode === "range"
@@ -66,13 +44,18 @@ function Calendar({
         ),
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-8 w-8 p-0 md:p-6 font-normal aria-selected:opacity-100"
+          "h-8 w-8 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
         day_selected:
-          "bg-blue-500 text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-amber-500 text-white",
+          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          day_today: cn(
+            "bg-yellow-400 text-accent-foreground", // Default style for today's date
+            "aria-selected:bg-primary aria-selected:text-white", // When selected, apply primary styles
+            "aria-selected:!bg-primary", // Ensure selected style overrides
+            "not-aria-selected:bg-yellow-400 not-aria-selected:text-accent-foreground" // Explicitly revert when deselected
+          ),          
         day_outside:
           "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
@@ -82,7 +65,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Nav: CustomNav
+        IconLeft: ({ className, ...props }) => (
+          <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
+        ),
+        IconRight: ({ className, ...props }) => (
+          <ChevronRight className={cn("h-4 w-4", className)} {...props} />
+        ),
       }}
       {...props}
     />

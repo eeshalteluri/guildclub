@@ -118,7 +118,7 @@ export function generateMonthlyLogs(
   
         // Check if the day is in the frequency array
         if (frequency.includes(dayOfMonth)) {
-          const status = currentDate < today ? "missed" : "pending"; // Compare as UTC
+          const status = currentDate < today ? "missed" : "task-pending"; // Compare as UTC
           logs.push({
             date: currentDate.toISOString(), // Format date as YYYY-MM-DD
             status,

@@ -217,7 +217,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
       }
   
       try {
-          const response = await fetch(`https://guildclub-develop-backend.onrender.com/task/today-log`, {
+          const response = await fetch(`http://localhost:5000/task/today-log`, {
               method: "POST",
               headers: {
           Authorization: `Bearer ${token}`,
@@ -240,7 +240,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
 
   const handleDelete = async (taskId: string, userId: string) => {
     try{
-      const response = await fetch("https://guildclub-develop-backend.onrender.com/task", {
+      const response = await fetch("http://localhost:5000/task", {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -435,7 +435,7 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
               <EllipsisVertical />
             </PopoverTrigger>
 
-            <PopoverContent className="w-fit m-2 p-2">
+            <PopoverContent className="bg-secondary shadow-lg w-fit m-2 p-2 ">
               <div className="flex gap-2">
                 <Button size={"sm"}>Edit task</Button>
                 <Button size={"sm"} onClick={() => handleDelete(taskDetails?._id, taskDetails?.userId)}>Delete</Button>
@@ -457,12 +457,11 @@ const TaskCard: React.FC<TaskCardProps> = (taskData) => {
                         (log) => getDayOfYear(new Date(log.date)) === currentDay
                       )
           
-                      if (currentDay >= start && currentDay < end) {
                         // Use log status if available
                         if (logForDay) {
                           colorClass = getStatusColor(logForDay.status)
                         }
-                      }
+                      
           
                       return (
                         <HoverCard key={index}>

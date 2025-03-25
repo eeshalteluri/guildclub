@@ -84,7 +84,7 @@ body {
 @layer utilities {
   .scrollbar-custom {
     scrollbar-width: thin; /* Makes scrollbar thin (Firefox) */
-    scrollbar-color: #000000 #edf2f7; /* Thumb and track colors for Firefox */
+    scrollbar-color: #7a7b7c #edf2f7; /* Thumb and track colors for Firefox */
   }
 
   .scrollbar-custom::-webkit-scrollbar {

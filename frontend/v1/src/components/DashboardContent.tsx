@@ -50,7 +50,7 @@ export default function Dashboard() {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch("https://guildclub-develop-backend.onrender.com/auth/user", {
+        const response = await fetch("http://localhost:5000/auth/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -83,7 +83,7 @@ export default function Dashboard() {
 
     async function fetchTaskLogs(taskIds: string[]) {
       try {
-        const response = await fetch(`https://guildclub-develop-backend.onrender.com/auth/task-data-and-logs?taskIds=${taskIds}`, {
+        const response = await fetch(`http://localhost:5000/auth/task-data-and-logs?taskIds=${taskIds}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

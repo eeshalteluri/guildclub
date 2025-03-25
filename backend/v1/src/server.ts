@@ -1,14 +1,12 @@
 import express, { Router } from "express"
-import MongoStore from "connect-mongo"
 import cors from "cors"
 import session from "express-session"
 import passport from "passport"
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import connectDB from "./config/database"  // Import the database connection
-import app from "./routes/index"
-import { PORT, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NODE_ENV, MONGODB_URI } from "./config"
+import app from "./src/routes"
+import { PORT, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./config"
 import User from "./models/User"
-import jwt from "jsonwebtoken"
 
 
 const startServer = async () => {
@@ -29,19 +27,41 @@ const startServer = async () => {
             origin: 'http://localhost:3000',
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-            allowedHeaders: ['Content-Type', 'Authorization'],
-            optionsSuccessStatus: 200
+            allowedHeaders: ['Content-Type', 'Authorization']
           }))
 
         //CONFIGURE SESSION
-        console.log("NODE_ENV: ", NODE_ENV)
+        if(!SESSION_SECRET) throw new Error("SESSION_SECRET is not defined")
 
-        server.set("trust proxy", 1);
+        server.use(
+            session({
+                secret: SESSION_SECRET,
+                resave: false,
+                saveUninitialized: false,
+                cookie: {
+                    secure: process.env.NODE_ENV === 'production', // false in development
+                    httpOnly: true,
+                    maxAge: 60 * 60 * 1000, // 1 hour
+                    sameSite: 'lax'
+                }
+            })
+        )
 
         //CONFIGURE PASSPORT
         server.use(passport.initialize())
+        server.use(passport.session())
+
+        passport.serializeUser((user: any, done) => {
+            done(null, user)
+        })
+        
+        passport.deserializeUser((user: any, done) => {
+            done(null, user)
+        })
 
         //CONFIGURE GOOGLE STRATEGY
+        if(!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) throw new Error("GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET is not defined")
+
         passport.use(new GoogleStrategy({
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
@@ -73,7 +93,7 @@ const startServer = async () => {
                 return done(null, user);
             } catch (error) {
                 console.error('Google Strategy Error:', error);
-                return done(error as Error, null);
+                return done(error as Error, false);
             }
         }))
 

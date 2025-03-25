@@ -97,7 +97,7 @@ useEffect(() => {
       const bodyData = { ...data, userId };
       console.log("bodyData being sent:", bodyData);
 
-      const response = await fetch("https://guildclub-develop-backend.onrender.com/task/new-task",{
+      const response = await fetch("http://localhost:5000/task/new-task",{
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -136,7 +136,7 @@ useEffect(() => {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="h-[400px] overflow-y-scroll">
+      <DialogContent className="max-w-[350px] sm:max-w-[500px] h-[400px] overflow-y-scroll overflow-x-hidden scrollbar-custom scrollbar-thumb-gray-500 scrollbar-track-gray-300 rounded-md">
         <DialogTitle/>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
@@ -257,29 +257,29 @@ useEffect(() => {
           )}
 
           {watch("frequencyType") === "custom" && (
-<>
-<Calendar
-mode="multiple"
-selected={watch("frequency") as Date[]}
-onSelect={(selectedDates) => {
-  // Ensure selectedDates is an array of dates
-  const utcDates = (Array.isArray(selectedDates) ? selectedDates : [selectedDates])
-    .filter(Boolean) // Remove any null or undefined values
-    .map((date) =>
-      new Date(Date.UTC(date!.getFullYear(), date!.getMonth(), date!.getDate()))
-    );
-    console.log("UTC Dates: ", utcDates)
+            <>
+            <Calendar
+            mode="multiple"
+            selected={watch("frequency") as Date[]}
+            onSelect={(selectedDates) => {
+              // Ensure selectedDates is an array of dates
+              const utcDates = (Array.isArray(selectedDates) ? selectedDates : [selectedDates])
+                .filter(Boolean) // Remove any null or undefined values
+                .map((date) =>
+                  new Date(Date.UTC(date!.getFullYear(), date!.getMonth(), date!.getDate()))
+                );
+                console.log("UTC Dates: ", utcDates)
 
-  // Set the transformed UTC dates to frequency
-  setValue("frequency", utcDates);
-}}
-/>
-{errors.frequency && !watch("frequency")?.length ? (
-<p className="text-xs text-red-500">{errors?.frequency.message}</p>
-) : (
-<></>
-)}
-</>
+              // Set the transformed UTC dates to frequency
+              setValue("frequency", utcDates);
+            }}
+            />
+            {errors.frequency && !watch("frequency")?.length ? (
+            <p className="text-xs text-red-500">{errors?.frequency.message}</p>
+            ) : (
+            <></>
+            )}
+            </>
           )}
 
           {/* Start and End Dates */}
